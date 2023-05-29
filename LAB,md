@@ -1,51 +1,44 @@
 
+<p align="center">
+  <a href="#HowToUseThisProject">How To</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#Lab">Lab</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#memo-license">License</a>
+</p>
+
+![Architecture](/assets/images/lab_architecture.png)
+
+### CREATE AN API
+[] management console
+[] search api 
+[] select api gateway
+[] select REST API
+[] select New API
+[] inform name and select regional
+[] select Create API</p>
+[] create resource itens
+</p>
 
 
 
-
-management console
-search api 
-select api gateway
-select REST API
-select New API
-inform name and select regional
-select Create API
-
-Recurso e o q vem depois do dominio
-
-create resource itens
+*Recurso e o q vem depois do dominio
+*Explicar CORS
 
 
-
-Explicar CORS
-
-
-criar Dynamo DB table
-
-management console
-Search dynamoDB
-create table items
-
-search key id
-partitionkey
+### CREATE A DYNAMODB TABLE
+[] management console</p>
+Search dynamoDB</p>
+create table items</p>
+search key id</p>
+partitionkey</p>
 
 
-LAB - marcar peres-assiano
-cassianobrexit
-
-
-criar funcao lambda
-
-search lambda
-select lambda
-create a function
-author from scrat
-dio_lambda_function
-select create function
-
-
-agora vamos trabalhar com o IAM
-A funcao lambda vai falar com a tabela do BD precisa de permissao para acessar a tabela
+### CREATE A LAMBDA FUNCTION
+[] search lambda</p>
+[] select lambda</p>
+[] create a function</p>
+[] author from scrat</p>
+[] name: dio_lambda_function</p>
+[] select create function</p>
 
 ```javascript
 export const handler = async(event) => {
@@ -58,7 +51,9 @@ export const handler = async(event) => {
 };
 
 ```
+
 nova funcao
+
 ```javascript
 
 
@@ -107,7 +102,7 @@ exports.handler = async(event) => {
 o novo codigo 
 
 
-
+```javascript
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
   DynamoDBDocumentClient,
@@ -156,64 +151,60 @@ export const handler = async(event) => {
     return response;
 };
 
+```
 
+### SETTING UP THE PERMISSIONS
 
-Agora vamos definir as permissoes de acesso
+agora vamos trabalhar com o IAM
+A funcao lambda vai falar com a tabela do BD precisa de permissao para acessar a tabela
 
-Configuraiton > permissions > Execution role
-open role name dio_lambda_function-role-mhoroobq 
+[] Configuraiton > permissions > Execution role
+[] open role name
+[] name dio_lambda_function-role-mhoroobq 
 
-devemos adicionar uma nova politica na role
-
-add inline police
-type DynamoDB
-Add actions => putItem nao da para criar pois o botao addaction esta desabilitado
-
-Entao eu vou apenas selecionar Write > putitem
-
-Adcionar o ARN do objeto
+[] add inline police
+[] type DynamoDB
+[] Add actions => putItem nao da para criar pois o botao addaction esta desabilitado
+[] Entao eu vou apenas selecionar Write > putitem
+[] Adcionar o ARN do objeto
 voltar na tabela do dynamoDB 
 overview > aditional info
-
-dar  o nome da politica de acesso putitem_policy
+[] dar  o nome da politica de acesso putitem_policy
 create policy
 
+### CREATING THE INTEGRATION AND WRITING THE DATA
 
-escrever dados dentro do dynamoDB
+[] Integrar api gateway com backend lambda para 
+Amazon API Gatewy > dio_live_api > Resources > Action > Create Method > Select Post</p>
 
-1 - Integrar api gateway com backend lambda para 
-Amazon API Gatewy > dio_live_api > Resources > Action > Create Method > Select Post
-
-
-Inform lambda fucntion : dio_lambda_function
+[] Inform lambda fucntion : dio_lambda_function</p>
 
 ![screen 1](/assets/images/api_gateway_post_method.png)
-para gerar um endpoint devemos publicar a nossa Api
+
+[] para gerar um endpoint devemos publicar a nossa Api
 Actions > Deploy API
-new Stage Development
+new Stage Development</p>
 
 
 ![screen 1](/assets/images/api_gateway_post_method_flow.png)
 
 
-Get the url at > Stages > Development > items > POST
+[] Get the url at > Stages > Development > items > POST</p>
 
 
 
-Agora vamos testar com o postman:
+### VALIDATION USING POSTMAN
 
-Select Post
-Use the api url defined before
-Set up the body > Raw > Json
+[] Select Post</p>
+[] Use the api url defined before</p>
+[]Set up the body > Raw > Json
 
-```javascript
-
+```javascript 
 {
     "id":"003",
     "price" : 800
 }
 ```
-
 
 ![Postman](/assets/images/api_gateway_post_method_postman_success.png)
 
