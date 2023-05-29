@@ -228,3 +228,5 @@ Set up the body > Raw > Json
 ```
 
 
+![Postman](/assets/images/api_gateway_post_method_postman_success.png)
+
