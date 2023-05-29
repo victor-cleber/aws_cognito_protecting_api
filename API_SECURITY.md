@@ -1,5 +1,4 @@
 
-
 ## ⚡ Seguranca de API's
 
 API's sao so meios mais usados na comunicacao entre microservicos e containers, assim como sistemas e aplicacoes.
