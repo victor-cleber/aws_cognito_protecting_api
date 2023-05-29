@@ -1,232 +1,36 @@
 # Adding security to APIs using Amazon Cognito
 
 
-## 🛠 LAB
+<p align="center">
+  <a href="#HowToUseThisProject">How To</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#Lab">Lab</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#memo-license">License</a>
+</p>
 
-criar uma API como o Amazon API Gateway
-criar uma tabela de banco de dados com DynamoDB
-Criar funcoes de backend com o AWS Lambda
-Criar uma User Pool com o Amazon Cognito
-Configurar Authorizers para garantir a autenticacao de endpoints da API
-Registrar e realizar o login de usuarios
-interagir com a aplicao criada
 
+<p align="justify">The project is part of DIO's AWS Bootcamp. It will show how to use the AWS Cognito service to add security to your API developed using the AWS API Gateway. Also, your API will interact with a table created in AWS Dynamo DB.</p>
 
-figura cognito-arquitetura - see aws folder
 
+## 🚀 How to use this project
 
 
-management console
-search api 
-select api gateway
-select REST API
-select New API
-inform name and select regional
-select Create API
+The project includes prints with the final result of each step. For a better experience, please read this project summary and follow the steps described in the [LAB](). I also include additional information about [Security]() and  [Cognito]().
 
-Recurso e o q vem depois do dominio
+## 🛠 Lab
 
-create resource itens
+<p align="left">[ ] Create a database table items using AWS DynamoDB service</p>
+<p align="left">[ ] Create an API using the AWS API Gateway service</p>
+<p align="left">[ ] Create backend functions with AWS Lambda</p>
+<p align="left">[ ] Create a User Pool with Amazon Cognito</p>
+<p align="left">[ ] Configure authorizers to ensure authentication of API endpoints</p>
+<p align="left">[ ] Register and login users</p>
+<p align="left">[ ] Interact with the created application</p>
+<p align="left">[X] Tag <a href="https://www.linkedin.com/in/peres-cassiano/">Cassiano Peres</a> on Linkedin</p>
 
+## :memo: License
 
+This project is under an GNU General Public License v3.0. See more details in [LICENSE](LICENSE) for more information.
 
-Explicar CORS
+---
 
-
-criar Dynamo DB table
-
-management console
-Search dynamoDB
-create table items
-
-search key id
-partitionkey
-
-
-LAB - marcar peres-assiano
-cassianobrexit
-
-
-criar funcao lambda
-
-search lambda
-select lambda
-create a function
-author from scrat
-dio_lambda_function
-select create function
-
-
-agora vamos trabalhar com o IAM
-A funcao lambda vai falar com a tabela do BD precisa de permissao para acessar a tabela
-
-```javascript
-export const handler = async(event) => {
-    // TODO implement
-    const response = {
-        statusCode: 200,
-        body: JSON.stringify('Hello from Lambda!'),
-    };
-    return response;
-};
-
-```
-nova funcao
-```javascript
-
-
-/*import needed libraries*/
-var AWS = require("aws-sdk");
-const dynamodb = new AWS.DynamoDB.DocumentClient();
-
-
-exports.handler = async(event) => {
-    
-    let responseBody = ""
-    let statusCode = 0
-    
-    let {id, price} = JSON.parse(event.body);
-    
-    
-    /*define the parameters*/
-    const params = {
-        TableName: "itens",
-        Item: {
-            id : id,
-            price : price
-        }
-    }
-    
-    try{
-        /*call the dyanmoDb put method*/
-        await dynamodb.put(params).promise();
-        statusCode = 200,
-        responseBody = JSON.stringify("item inserted");
-    }catch (err){
-        statusCode = 200,
-        stringify = JSON.stringify(err);
-    }
-    
-    const response = {
-        statusCode: statusCode,
-        body: responseBody,        
-    };    
-    return response;
-};
-
-
-```
-
-o novo codigo 
-
-
-
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import {
-  DynamoDBDocumentClient,
-  ScanCommand,
-  PutCommand,
-  GetCommand,
-  DeleteCommand,
-} from "@aws-sdk/lib-dynamodb";
-
-
-const client = new DynamoDBClient({});
-
-const dynamo = DynamoDBDocumentClient.from(client);
-
-export const handler = async(event) => {
-    
-    let responseBody = ""
-    let statusCode = 0
-    
-    let {id, price} = JSON.parse(event.body);
-    
-    
-    /*define the parameters*/
-    const params = {
-        TableName: "itens",
-        Item: {
-            id : id,
-            price : price
-        }
-    }
-    
-    try{
-        /*call the dyanmoDb put method*/
-        await dynamodb.put(params).promise();
-        statusCode = 200,
-        responseBody = JSON.stringify("item inserted");
-    }catch (err){
-        statusCode = 200,
-        stringify = JSON.stringify(err);
-    }
-    
-    const response = {
-        statusCode: statusCode,
-        body: responseBody,        
-    };    
-    return response;
-};
-
-
-
-Agora vamos definir as permissoes de acesso
-
-Configuraiton > permissions > Execution role
-open role name dio_lambda_function-role-mhoroobq 
-
-devemos adicionar uma nova politica na role
-
-add inline police
-type DynamoDB
-Add actions => putItem nao da para criar pois o botao addaction esta desabilitado
-
-Entao eu vou apenas selecionar Write > putitem
-
-Adcionar o ARN do objeto
-voltar na tabela do dynamoDB 
-overview > aditional info
-
-dar  o nome da politica de acesso putitem_policy
-create policy
-
-
-escrever dados dentro do dynamoDB
-
-1 - Integrar api gateway com backend lambda para 
-Amazon API Gatewy > dio_live_api > Resources > Action > Create Method > Select Post
-
-
-Inform lambda fucntion : dio_lambda_function
-
-![screen 1](/assets/images/api_gateway_post_method.png)
-para gerar um endpoint devemos publicar a nossa Api
-Actions > Deploy API
-new Stage Development
-
-
-![screen 1](/assets/images/api_gateway_post_method_flow.png)
-
-
-Get the url at > Stages > Development > items > POST
-
-
-
-Agora vamos testar com o postman:
-
-Select Post
-Use the api url defined before
-Set up the body > Raw > Json
-
-```javascript
-
-{
-    "id":"003",
-    "price" : 800
-}
-```
-
-
-![Postman](/assets/images/api_gateway_post_method_postman_success.png)
 
