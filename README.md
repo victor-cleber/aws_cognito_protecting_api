@@ -191,3 +191,40 @@ overview > aditional info
 dar  o nome da politica de acesso putitem_policy
 create policy
 
+
+escrever dados dentro do dynamoDB
+
+1 - Integrar api gateway com backend lambda para 
+Amazon API Gatewy > dio_live_api > Resources > Action > Create Method > Select Post
+
+
+Inform lambda fucntion : dio_lambda_function
+
+![screen 1](/assets/images/api_gateway_post_method.png)
+para gerar um endpoint devemos publicar a nossa Api
+Actions > Deploy API
+new Stage Development
+
+
+![screen 1](/assets/images/api_gateway_post_method_flow.png)
+
+
+Get the url at > Stages > Development > items > POST
+
+
+
+Agora vamos testar com o postman:
+
+Select Post
+Use the api url defined before
+Set up the body > Raw > Json
+
+```javascript
+
+{
+    "id":"003",
+    "price" : 800
+}
+```
+
+
